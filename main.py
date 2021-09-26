@@ -49,12 +49,14 @@ def binance_p2p_scan(telegram_url, group_chat_id):
 
     number_of_transactions = len(print_df)
     if number_of_transactions > 0:
+        min_price = min([ele[0] for ele in print_df])
+        
         time_message = f'時間：{datetime.now(pytz.timezone("Asia/Hong_Kong")).strftime("%Y-%m-%d %H:%M:%S")}'
-        message = f'Binance 有 {number_of_transactions} 個 quote 既 rate <= 7.87 同埋 minimum <= 2500'
+        message = f'Binance 有 {number_of_transactions} 個 quote 既 rate <= 7.87 同埋 minimum <= 2500 \n 最低價錢有 ${min_price}'
         
         headers = ['Rate', 'Min $', 'Max $']
         requests.get(telegram_url + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(
-            time_message + '\n\n' + message + '``` \n\n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
+            time_message + '\n' + message + '``` \n\n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
 
 def aax_p2p_scan(telegram_url, group_chat_id):
     res = requests.get(r'https://api.aax.com/otc/v2/order/all?coin=USDT&orderType=sell&orderBy=ASC&unit=HKD&paymentMethods=4&amount=-1&page=0&limit=10&region=*&amountType=Ordinary')
@@ -75,12 +77,14 @@ def aax_p2p_scan(telegram_url, group_chat_id):
 
     number_of_transactions = len(print_df)
     if number_of_transactions > 0:
+        min_price = min([ele[0] for ele in print_df])
+
         time_message = f'時間：{datetime.now(pytz.timezone("Asia/Hong_Kong")).strftime("%Y-%m-%d %H:%M:%S")}'
-        message = f'AAX 有 {number_of_transactions} 個 quote 既 rate <= 7.87 同埋 minimum <= 2500'
+        message = f'AAX 有 {number_of_transactions} 個 quote 既 rate <= 7.87 同埋 minimum <= 2500 \n 最低價錢有 {min_price}'
         
         headers = ['Rate', 'Min $', 'Max $']
         requests.get(telegram_url + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(
-            time_message + '\n\n' + message + '``` \n\n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
+            time_message + '\n' + message + '``` \n\n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
 
 def trim_log():
     rc = subprocess.call("/home/ubuntu/binance_p2p_notification/trim_log.sh", shell=True)
@@ -96,7 +100,7 @@ def lambda_handler(event=None, context=None):
         binance_p2p_scan(telegram_url, group_chat_id)
         aax_p2p_scan(telegram_url, group_chat_id)
         trim_log()
-        time.sleep(5)
+        time.sleep(10)
 
 
 
