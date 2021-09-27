@@ -6,7 +6,7 @@ import time
 import logging
 import subprocess
 
-logname = r'/home/ubuntu/binance_p2p_notification/log/p2p_notification.log'
+logname = r'/home/ubuntu/hk_usdt_p2p_price_monitoring/log/p2p_notification.log'
 logging.basicConfig(filename=logname,
                             filemode='a',
                             format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
@@ -87,7 +87,7 @@ def aax_p2p_scan(telegram_url, group_chat_id):
             time_message + '\n' + message + '``` \n\n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
 
 def trim_log():
-    rc = subprocess.call("/home/ubuntu/binance_p2p_notification/trim_log.sh", shell=True)
+    rc = subprocess.call("/home/ubuntu/hk_usdt_p2p_price_monitoring/trim_log.sh", shell=True)
 
 
 def lambda_handler(event=None, context=None):
