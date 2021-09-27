@@ -44,19 +44,19 @@ def binance_p2p_scan(telegram_url, group_chat_id):
     
     print_df = []
     for i in range(len(price)):
-        if price[i] <= 7.87 and min_amount[i] <= 2500:
+        if price[i] <= 7.83 and min_amount[i] <= 2500:
             print_df.append([df[0][i], df[1][i], df[2][i]])
 
     number_of_transactions = len(print_df)
     if number_of_transactions > 0:
         min_price = min([ele[0] for ele in print_df])
         
-        time_message = f'時間：{datetime.now(pytz.timezone("Asia/Hong_Kong")).strftime("%Y-%m-%d %H:%M:%S")}'
-        message = f'Binance 有 {number_of_transactions} 個 quote 既 rate <= 7.87 同埋 minimum <= 2500 \n 最低價錢有 ${min_price}'
+        time_message = f'時間：{datetime.now(pytz.timezone("Asia/Hong_Kong")).strftime("%Y-%m-%d %H:%M:%S")} 最低價錢有 ${min_price}'
+        message = f'Binance 有 {number_of_transactions} 個 quote 既 rate <= 7.83 同埋 minimum <= 2500'
         
         headers = ['Rate', 'Min $', 'Max $']
         requests.get(telegram_url + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(
-            time_message + '\n' + message + '``` \n\n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
+            time_message + '\n' + message + '``` \n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
 
 def aax_p2p_scan(telegram_url, group_chat_id):
     res = requests.get(r'https://api.aax.com/otc/v2/order/all?coin=USDT&orderType=sell&orderBy=ASC&unit=HKD&paymentMethods=4&amount=-1&page=0&limit=10&region=*&amountType=Ordinary')
@@ -72,19 +72,19 @@ def aax_p2p_scan(telegram_url, group_chat_id):
 
     print_df = []
     for i in range(len(price)):
-        if price[i] <= 7.87 and price[i] != 0 and min_amount[i] <= 2500:
+        if price[i] <= 7.83 and price[i] != 0 and min_amount[i] <= 2500:
             print_df.append([price[i], min_amount[i], max_amount[i]])
 
     number_of_transactions = len(print_df)
     if number_of_transactions > 0:
         min_price = min([ele[0] for ele in print_df])
 
-        time_message = f'時間：{datetime.now(pytz.timezone("Asia/Hong_Kong")).strftime("%Y-%m-%d %H:%M:%S")}'
-        message = f'AAX 有 {number_of_transactions} 個 quote 既 rate <= 7.87 同埋 minimum <= 2500 \n 最低價錢有 {min_price}'
+        time_message = f'時間：{datetime.now(pytz.timezone("Asia/Hong_Kong")).strftime("%Y-%m-%d %H:%M:%S")} 最低價錢有 {min_price}'
+        message = f'AAX 有 {number_of_transactions} 個 quote 既 rate <= 7.83 同埋 minimum <= 2500 '
         
         headers = ['Rate', 'Min $', 'Max $']
         requests.get(telegram_url + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(
-            time_message + '\n' + message + '``` \n\n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
+            time_message + '\n' + message + '``` \n' + tabulate(print_df, headers= headers,tablefmt='fancy_grid', showindex=False) +'```', group_chat_id))
 
 def trim_log():
     rc = subprocess.call("/home/ubuntu/hk_usdt_p2p_price_monitoring/trim_log.sh", shell=True)
