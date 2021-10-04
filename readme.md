@@ -1,4 +1,4 @@
- aAlert
+# P2P HKD USDT Alert
 This script is to monitor the P2P prices quoted on Binance and AAX in HKD. It will alert me in telegram when the price is desirable.
 
 ## Telegram
