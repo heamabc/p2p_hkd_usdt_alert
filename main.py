@@ -5,6 +5,7 @@ from datetime import datetime
 import time
 import logging
 import subprocess
+from config import telegram_dict
 
 logname = r'/home/ubuntu/hk_usdt_p2p_price_monitoring/log/p2p_notification.log'
 logging.basicConfig(filename=logname,
@@ -102,8 +103,8 @@ def trim_log():
 
 
 def lambda_handler(event=None, context=None):
-    telegram_url = 'https://api.telegram.org/bot2049500365:AAEGmc1MD7Eie7qwmxA9i7a5Hi2CUNuL-T0/'
-    group_chat_id = -568095917
+    telegram_url = telegram_dict['telegram_url']
+    group_chat_id = telegram_dict['group_chat_id']
     headers = {'Content-Type': 'application/json'}
 
     while(True):
