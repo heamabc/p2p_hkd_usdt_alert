@@ -5,6 +5,7 @@ number_of_line=${number_of_line:-0}
 
 if [ "$number_of_line" -gt 100 ];
 then
-    echo "Number of line is greater then or equal to 100, need to trim"
+    now=$(date +"%T")
+    echo "Current time : $now. Number of line is greater then or equal to 100, need to trim"
     echo "$(tail -100 log/p2p_notification.log)" > log/p2p_notification.log
 fi
