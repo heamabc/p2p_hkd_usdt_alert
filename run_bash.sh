@@ -1,1 +1,2 @@
-/usr/bin/env /home/ubuntu/hk_usdt_p2p_price_monitoring/venv/bin/python /home/ubuntu/hk_usdt_p2p_price_monitoring/main.py 
+cd /home/ubuntu/script/p2p_hkd_usdt_alert
+/usr/bin/env /home/ubuntu/script/p2p_hkd_usdt_alert/venv/bin/python /home/ubuntu/script/p2p_hkd_usdt_alert/main.py 
