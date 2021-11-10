@@ -60,14 +60,12 @@ def binance_p2p_scan(telegram_url, group_chat_id, alert_level):
     number_of_transactions = len(print_df)
 
     if number_of_transactions > 0:
-        if number_of_transactions ==1:
-            print_df = [print_df]
 
         new_data_df = pd.DataFrame(print_df)
         new_data_df.columns = ['adv_no', 'price', 'min', 'max']
 
         # No new quotes
-        if new_data_df['adv_no'].isin(old_data['adv_no']).all():
+        if new_data_df['adv_no'].isin(old_data['adv_no']).all() and old_data['adv_no'].isin(new_data_df['adv_no']).all():
             return
         else:
             new_data_df.to_csv(join(root_path, 'binance_quote.csv'), index=False)
@@ -124,7 +122,7 @@ def aax_p2p_scan(telegram_url, group_chat_id, alert_level):
         new_data_df.columns = ['id', 'price', 'min', 'max']
 
         # No new quotes
-        if new_data_df['id'].isin(old_data['id']).all():
+        if new_data_df['adv_no'].isin(old_data['adv_no']).all() and old_data['adv_no'].isin(new_data_df['adv_no']).all():
             return
         else:
             new_data_df.to_csv(join(root_path, 'aax_quote.csv'), index=False)
@@ -150,7 +148,7 @@ def trim_log():
     rc = subprocess.call(join(root_path, "trim_log.sh"), shell=True)
 
 def lambda_handler(event=None, context=None):
-    alert_level = 7.8
+    alert_level = 7.82
     telegram_url = telegram_dict['telegram_url']
     group_chat_id = telegram_dict['group_chat_id']
     headers = {'Content-Type': 'application/json'}
